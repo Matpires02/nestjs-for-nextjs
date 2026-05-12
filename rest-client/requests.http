@@ -7,9 +7,10 @@ Content-Type: application/json
 
 {
     "email": "user@email.com",
-    "password": "123456"
+    "password": "123456",
+    "chaveMalvada": "qualquer coisa"
 }
 
 ### Read one user
 # @name readOneUser
-GET {{baseUrl}}/user/123
+GET {{baseUrl}}/user/12
