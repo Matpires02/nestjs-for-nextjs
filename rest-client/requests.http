@@ -7,10 +7,20 @@ Content-Type: application/json
 
 {
     "email": "user@email.com",
-    "password": "123456",
-    "chaveMalvada": "qualquer coisa"
+    "password": "123456"
 }
 
 ### Read one user
 # @name readOneUser
 GET {{baseUrl}}/user/123
+
+### Create user
+# @name createUser
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+    "name": "teste",
+    "email": "user@email.com",
+    "password": "123456"
+}
