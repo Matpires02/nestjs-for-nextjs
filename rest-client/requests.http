@@ -36,3 +36,14 @@ Authorization: Bearer {{accessToken}}
 {
     "name": "teste",
 }
+
+### Update user password
+# @name updateUserPassword
+PATCH  {{baseUrl}}/user/me/password
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+    "currentPassword": "123456",
+    "newPassword": "1234567"
+}
