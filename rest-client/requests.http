@@ -131,7 +131,7 @@ Content-Type: multipart/form-data; boundary=----BryenFormBoundary
 Content-Disposition: form-data; name="file"; filename="image.png"
 Content-Type: image/png
 
-< ../dev/images/image.gif
+< ../dev/images/image.webp
 ------BryenFormBoundary--
 
 ### Read Image
