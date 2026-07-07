@@ -38,6 +38,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  await app.listen(process.env.APP_PORT ?? 3000);
+  const port = Number(process.env.PORT ?? process.env.APP_PORT ?? 3000);
+
+  await app.listen(port, '0.0.0.0');
+
+  console.log(`🚀 Server running on port ${port}`);
 }
 void bootstrap();
