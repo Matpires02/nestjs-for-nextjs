@@ -1,198 +1,225 @@
 # 🚀 NestJS API
 
-API desenvolvida utilizando **NestJS**, com foco em boas práticas de segurança,
-organização e escalabilidade.
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![TypeORM](https://img.shields.io/badge/TypeORM-FE0902?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-A aplicação possui autenticação, validação de dados, proteção contra ataques
-comuns, controle de acesso utilizando Guards, tratamento global de exceções e
-persistência utilizando TypeORM.
+API REST desenvolvida com **NestJS**, seguindo boas práticas de arquitetura,
+segurança e organização.
+
+O projeto foi criado para servir como backend de uma aplicação Full Stack
+desenvolvida com **Next.js**, oferecendo autenticação, gerenciamento de
+usuários, gerenciamento de posts, upload de arquivos e persistência de dados
+utilizando **PostgreSQL** e **TypeORM**.
 
 ---
 
-## 🛠️ Tecnologias utilizadas
+## 🔗 Links
+
+- 🌐 **Frontend:** https://nextjs-for-nestjs-xi.vercel.app
+- 🚀 **Backend:** https://nestjs-for-nextjs-hfue.onrender.com
+- 📂 **Repositório:** https://github.com/Matpires02/nestjs-for-nextjs
+
+---
+
+## 📖 Sobre
+
+Este projeto foi desenvolvido com o objetivo de aprofundar conhecimentos em
+desenvolvimento backend utilizando **NestJS**, abordando conceitos como:
+
+- Arquitetura modular
+- APIs REST
+- Autenticação JWT
+- Persistência de dados
+- Segurança
+- Deploy em produção
+
+---
+
+## ✨ Funcionalidades
+
+- 🔐 Autenticação utilizando JWT
+- 👤 Cadastro e gerenciamento de usuários
+- 📝 CRUD de posts
+- 📤 Upload de arquivos
+- 🛡️ Rotas protegidas com Guards
+- ✅ Validação automática de requisições
+- ⚠️ Tratamento global de exceções
+- 🚦 Rate Limiting
+- 🔒 Criptografia de senhas com bcrypt
+- 🌐 Configuração segura de CORS
+- 🛡️ Headers HTTP seguros utilizando Helmet
+
+---
+
+## ⭐ Destaques
+
+- Arquitetura modular utilizando NestJS
+- API REST
+- PostgreSQL + TypeORM
+- Autenticação JWT
+- Upload de arquivos
+- Rate Limiting
+- Helmet
+- Validation Pipes
+- Exception Filters
+- Deploy preparado para produção
+
+---
+
+## 🏗️ Arquitetura
+
+```mermaid
+graph TD
+
+A[Next.js] --> B[NestJS API]
+B --> C[TypeORM]
+C --> D[(PostgreSQL - Neon)]
+```
+
+---
+
+## 🛠️ Tecnologias
+
+### Backend
 
 - NestJS
 - Node.js
 - TypeScript
 - TypeORM
-- bcrypt para criptografia de senhas
-- ThrottlerModule para Rate Limit
-- Helmet para headers de segurança
-- CORS configurado
-- Pipes para validação e transformação de dados
-- Exception Filters para tratamento de erros
-- Guards para controle de autenticação/autorização
+- PostgreSQL
+
+### Segurança
+
+- JWT
+- bcrypt
+- Helmet
+- ThrottlerModule
+- CORS
+
+### Qualidade
+
+- ValidationPipe
+- Exception Filters
+- Guards
 
 ---
 
-## ⚙️ Configuração do ambiente
+## 📂 Estrutura do projeto
 
-Crie um arquivo `.env` baseado no:
-
+```text
+src/
+├── auth/
+│   ├── dto/
+│   ├── guards/
+│   ├── strategies/
+│   └── ...
+├── common/
+│   ├── filters/
+│   ├── hashing/
+│   ├── utils/
+│   └── ...
+├── post/
+├── upload/
+├── user/
+├── app.module.ts
+└── main.ts
 ```
+
+---
+
+## ⚙️ Variáveis de ambiente
+
+Crie um arquivo `.env` baseado no arquivo:
+
+```text
 .env.example
 ```
 
-Exemplo:
+### Variáveis
 
-```env
-PORT=3000
-
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-DATABASE_USER=root
-DATABASE_PASSWORD=password
-DATABASE_NAME=database
-
-JWT_SECRET=secret_key
-
-THROTTLE_TTL=60
-THROTTLE_LIMIT=10
-```
+| Variável         | Descrição                                                   |
+| ---------------- | ----------------------------------------------------------- |
+| `DATABASE_URL`   | URL de conexão com o PostgreSQL                             |
+| `JWT_SECRET`     | Chave utilizada para geração dos tokens JWT                 |
+| `PORT`           | Porta da aplicação                                          |
+| `DB_SYNCHRONIZE` | Sincronização automática do banco (somente desenvolvimento) |
+| `CORS_WHITELIST` | Lista de domínios permitidos                                |
 
 ---
 
 ## ▶️ Instalação
 
+Instale as dependências:
+
 ```bash
 npm install
 ```
 
-Configure o arquivo `.env`
+Configure o arquivo `.env`.
 
-Execute:
+Execute a aplicação:
 
 ```bash
 npm run start:dev
 ```
 
-API disponível:
+A API ficará disponível em:
 
-```
-http://localhost:3001
-```
-
----
-
-# 🔐 Segurança
-
-## Helmet
-
-Adiciona headers HTTP seguros:
-
-```ts
-app.use(helmet());
-```
-
-## CORS
-
-Permite comunicação segura entre aplicações:
-
-```ts
-app.enableCors();
-```
-
-## Rate Limit
-
-Implementado com ThrottlerModule para limitar requisições:
-
-```ts
-ThrottlerModule.forRoot({
-  ttl: 60000,
-  limit: 10,
-});
+```text
+http://localhost:3000
 ```
 
 ---
 
-# 🔑 Autenticação
+## 🚀 Deploy
 
-O sistema utiliza Guards para proteger rotas.
+A aplicação foi preparada para execução em produção utilizando:
 
-Fluxo:
-
-1. Usuário realiza login
-2. Senha validada usando bcrypt
-3. Token gerado
-4. Guard valida acesso às rotas protegidas
-
----
-
-# 🔒 Senhas
-
-Senhas são armazenadas utilizando hash:
-
-```ts
-bcrypt.hash(password, 10);
-```
-
-Comparação:
-
-```ts
-bcrypt.compare(password, hashedPassword);
-```
+| Serviço        | Plataforma        |
+| -------------- | ----------------- |
+| Frontend       | Vercel            |
+| Backend        | Render            |
+| Banco de dados | Neon (PostgreSQL) |
 
 ---
 
-# 🛡️ Guards
+## 🔐 Segurança
 
-Exemplo:
+O projeto implementa diversas práticas para aumentar a segurança da aplicação:
 
-```ts
-@UseGuards(AuthGuard)
-@Get()
-findAll() {}
-```
-
-Responsáveis por autenticação e autorização.
-
----
-
-# ⚠️ Exception Filters
-
-Tratamento centralizado de erros:
-
-```ts
-@Catch(HttpException)
-export class HttpExceptionFilter {}
-```
-
-Padroniza respostas da API.
+- Autenticação baseada em JWT
+- Hash de senhas utilizando bcrypt
+- Rate Limiting para proteção contra abuso
+- Helmet para configuração de headers HTTP
+- Guards para controle de acesso
+- ValidationPipe para validação automática
+- Exception Filters para padronização das respostas de erro
 
 ---
 
-# 📋 Pipes
+## 🗄️ Banco de dados
 
-Utilizados para validação e transformação:
+A persistência dos dados é realizada utilizando **TypeORM** com **PostgreSQL**.
 
-```ts
-ValidationPipe({
-  whitelist: true,
-  transform: true,
-});
-```
-
----
-
-# 🗄️ TypeORM
-
-A aplicação utiliza TypeORM para persistência:
+Principais recursos utilizados:
 
 - Entidades
 - Repositórios
 - Migrations
-- Comunicação com banco
-
-Configuração via `.env`.
+- Configuração via variáveis de ambiente
 
 ---
 
-# 📚 Documentação das rotas
+## 📚 Documentação das rotas
 
-As rotas disponíveis estão documentadas em:
+As requisições da API estão disponíveis em:
 
-```
-./rest-client/request.http
+```text
+rest-client/request.http
 ```
 
 Compatível com:
@@ -200,7 +227,7 @@ Compatível com:
 - VS Code REST Client
 - JetBrains HTTP Client
 
-Exemplo:
+### Exemplo
 
 ```http
 ### Login
@@ -216,9 +243,9 @@ Content-Type: application/json
 
 ---
 
-# 🧪 Testes
+## 🧪 Testes
 
-Executar:
+Executar os testes:
 
 ```bash
 npm run test
@@ -232,44 +259,77 @@ npm run test:cov
 
 ---
 
-# 📦 Scripts
+## 📦 Scripts
 
-```bash
-npm run start
-```
-
-Executa a aplicação.
-
-```bash
-npm run start:dev
-```
-
-Modo desenvolvimento.
-
-```bash
-npm run build
-```
-
-Build de produção.
-
-```bash
-npm run start:prod
-```
-
-Executa versão compilada.
+| Script               | Descrição                          |
+| -------------------- | ---------------------------------- |
+| `npm run start`      | Executa a aplicação                |
+| `npm run start:dev`  | Executa em modo de desenvolvimento |
+| `npm run build`      | Gera o build da aplicação          |
+| `npm run start:prod` | Executa a versão compilada         |
+| `npm run test`       | Executa os testes                  |
+| `npm run test:cov`   | Gera o relatório de cobertura      |
 
 ---
 
-# 📌 Observações
+## 🚧 Roadmap
 
-- Não envie o `.env` para o repositório.
-- Utilize o `.env.example`.
-- Mantenha credenciais protegidas.
-- Rotas protegidas precisam de autenticação.
+- [x] Autenticação JWT
+- [x] CRUD de usuários
+- [x] CRUD de posts
+- [x] Upload de arquivos
+- [x] PostgreSQL
+- [x] Deploy
+- [ ] Documentação com Swagger
+- [ ] Refresh Token
+- [ ] Testes End-to-End
+- [ ] Docker
+- [ ] GitHub Actions (CI/CD)
 
 ---
 
-## Autor
+## 📌 Boas práticas adotadas
 
-Projeto desenvolvido utilizando NestJS seguindo boas práticas de arquitetura e
-segurança.
+- Arquitetura modular
+- Separação de responsabilidades
+- Configuração por variáveis de ambiente
+- Tratamento centralizado de exceções
+- Validação automática de dados
+- Rotas protegidas por Guards
+- Criptografia de senhas
+- Utilização de JWT para autenticação
+- Código organizado e escalável
+
+---
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas.
+
+Caso encontre algum problema ou tenha sugestões de melhoria, fique à vontade
+para abrir uma **Issue** ou enviar um **Pull Request**.
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para fins de estudo e demonstração de
+conhecimentos em desenvolvimento backend utilizando NestJS.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Matheus Pires**.
+
+Este projeto foi criado para consolidar conhecimentos em:
+
+- Arquitetura de APIs REST
+- NestJS
+- TypeORM
+- PostgreSQL
+- Segurança de aplicações
+- Deploy em produção
+
+⭐ Caso este projeto tenha sido útil para você, considere deixar uma estrela no
+repositório.
