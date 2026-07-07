@@ -39,11 +39,10 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
         return {
           type: 'postgres',
-          database: process.env.DB_DATABASE || './db.sqlite',
-          host: process.env.DB_HOST,
-          port: parseInt(process.env.DB_PORT || '5432', 10),
-          username: process.env.DB_USERNAME,
-          password: process.env.DB_PASSWORD,
+          url: process.env.DB_DATABASE || '',
+          ssl: {
+            rejectUnauthorized: false,
+          },
           synchronize: process.env.DB_SYNCHRONIZE === '1',
           autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
         };
