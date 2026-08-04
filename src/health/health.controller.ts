@@ -6,6 +6,7 @@ import {
   TypeOrmHealthIndicator,
   MemoryHealthIndicator,
   DiskHealthIndicator,
+  HealthIndicatorService,
 } from '@nestjs/terminus';
 
 @Controller('health')
@@ -16,32 +17,60 @@ export class HealthController {
     private db: TypeOrmHealthIndicator,
     private memory: MemoryHealthIndicator,
     private disk: DiskHealthIndicator,
+    private readonly healthIndicator: HealthIndicatorService,
   ) {}
 
-  @Get()
+  /**
+   * Liveness
+   *
+   * Verifica apenas se a aplicação está funcionando.
+   */
+  @Get('live')
+  @HealthCheck()
+  live() {
+    return this.health.check([
+      () => {
+        const indicator = this.healthIndicator.check('api');
+
+        return indicator.up({
+          message: 'API is running',
+        });
+      },
+    ]);
+  }
+
+  /**
+   * Readiness
+   *
+   * Verifica se a aplicação está pronta
+   * para receber requisições.
+   */
+  @Get('ready')
+  @HealthCheck()
+  ready() {
+    return this.health.check([
+      () => this.db.pingCheck('database'),
+      () => this.memory.checkHeap('memory_heap', 300 * 1024 * 1024),
+    ]);
+  }
+
+  /**
+   * Health geral da aplicação.
+   */
+  @Get('')
   @HealthCheck()
   check() {
     return this.health.check([
-      () => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com'),
       () => this.db.pingCheck('database'),
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024), // 150MB
       () => this.memory.checkRSS('memory_rss', 300 * 1024 * 1024),
+      () => {
+        const indicator = this.healthIndicator.check('api');
+
+        return indicator.up({
+          message: 'API is running',
+        });
+      },
     ]);
   }
-
-  @Get('live')
-  @HealthCheck()
-  liveness() {
-    return { status: 'ok' };
-  }
-
-  /* @Get('ready')
-  @HealthCheck()
-  readiness() {
-    return this.health.check([
-      () => this.db.pingCheck('database'),
-      () =>
-        this.http.pingCheck('external-api', 'https://api.example.com/health'),
-    ]);
-  } */
 }

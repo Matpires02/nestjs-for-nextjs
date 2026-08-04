@@ -145,4 +145,12 @@ GET {{imageUrl}}
 ### health Check
 # @name health
 GET {{baseUrl}}/health
+
+### health Check live
+# @name healthLive
+GET {{baseUrl}}/health/live
+
+### health Check was ready
+# @name healthReady
+GET {{baseUrl}}/health/ready
 ###############################################################################
