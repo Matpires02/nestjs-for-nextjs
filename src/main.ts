@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import helmet from 'helmet';
 import { parseCorsWhitelist } from './common/utils/parse-cors-whitelist';
+import { RequestContextInterceptor } from './request-context/request-context.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -39,6 +40,10 @@ async function bootstrap() {
     }),
   );
   const port = Number(process.env.PORT ?? process.env.APP_PORT ?? 3000);
+
+  const requestContextInterceptor = app.get(RequestContextInterceptor);
+
+  app.useGlobalInterceptors(requestContextInterceptor);
 
   await app.listen(port, '0.0.0.0');
 

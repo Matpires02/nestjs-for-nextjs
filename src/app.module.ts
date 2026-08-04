@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
@@ -10,6 +10,9 @@ import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { HealthController } from './health/health.controller';
 import { HealthModule } from './health/health.module';
+import { RequestContextModule } from './request-context/request-context.module';
+import { AuditModule } from './audit/audit.module';
+import { RequestContextMiddleware } from './request-context/request-context.middleware';
 
 @Module({
   imports: [
@@ -50,6 +53,8 @@ import { HealthModule } from './health/health.module';
         };
       },
     }),
+    RequestContextModule,
+    AuditModule,
     UploadModule,
     HealthModule,
   ],
@@ -65,4 +70,8 @@ import { HealthModule } from './health/health.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestContextMiddleware).forRoutes('*');
+  }
+}
