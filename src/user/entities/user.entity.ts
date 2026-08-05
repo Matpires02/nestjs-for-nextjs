@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserRole } from './user-role.enum';
 
 @Entity()
 export class User {
@@ -27,4 +28,16 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  /* @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER,
+  }) // este código é somente para quando usar somente postgressql*/
+  @Column({
+    type: 'varchar',
+    length: 20,
+    default: UserRole.USER,
+  })
+  role: UserRole;
 }
