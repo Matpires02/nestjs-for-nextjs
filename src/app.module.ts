@@ -39,7 +39,7 @@ import { RequestContextMiddleware } from './request-context/request-context.midd
             database: process.env.DB_DATABASE || './db.sqlite',
             synchronize: process.env.DB_SYNCHRONIZE === '1',
             autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
-            migrations: ['dist/migrations/*.js'],
+            migrations: [__dirname + '/migrations/*{.js,.ts}'],
             migrationsRun: process.env.DB_MIGRATIONS_RUN === '1',
           };
         }
