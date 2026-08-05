@@ -6,6 +6,7 @@ import { CommonModule } from 'src/common/common.module';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { AuditModule } from 'src/audit/audit.module';
+import { RefreshTokenModule } from 'src/refresh-token/refresh-token.module';
 
 @Module({
   controllers: [AuthController],
@@ -14,12 +15,20 @@ import { AuditModule } from 'src/audit/audit.module';
     UserModule,
     CommonModule,
     AuditModule,
+    RefreshTokenModule,
     JwtModule.registerAsync({
       useFactory: (): JwtModuleOptions => {
         const secret = process.env.JWT_SECRET;
         if (!secret) {
           throw new InternalServerErrorException(
             'JWT_SECRET not found in environment variables',
+          );
+        }
+
+        const refreshSecret = process.env.JWT_REFRESH_SECRET;
+        if (!refreshSecret) {
+          throw new InternalServerErrorException(
+            'JWT_REFRESH_SECRET not found in environment variables',
           );
         }
 

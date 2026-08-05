@@ -38,6 +38,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
+    if (payload.type === 'refresh') {
+      throw new UnauthorizedException('Invalid authentication');
+    }
+
     const user = await this.userService.findById(payload.sub);
 
     if (!user || user.forceLogout) {

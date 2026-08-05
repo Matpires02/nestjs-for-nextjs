@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { parseCorsWhitelist } from './common/utils/parse-cors-whitelist';
 import { RequestContextInterceptor } from './request-context/request-context.interceptor';
 import { RequestIdInterceptor } from './request-context/request-id.interceptor';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,8 @@ async function bootstrap() {
       crossOriginResourcePolicy: { policy: 'cross-origin' },
     }),
   );
+
+  app.use(cookieParser());
 
   const corsWhiteList = parseCorsWhitelist(process.env.CORS_WHITELIST ?? '');
 
