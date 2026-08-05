@@ -48,4 +48,8 @@ export class FindAuditLogsDto {
   @Min(1)
   @Max(100)
   limit?: number = 20;
+
+  @IsOptional()
+  @IsUUID()
+  requestId?: string;
 }

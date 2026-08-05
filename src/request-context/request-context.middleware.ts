@@ -16,6 +16,7 @@ export class RequestContextMiddleware implements NestMiddleware {
       method: req.method ?? null,
       route: req.originalUrl ?? req.url ?? null,
       userAgent: req.get('user-agent') ?? null,
+      requestId: req.headers['x-request-id']?.toString() ?? null,
     };
 
     this.requestContext.run(context, next);

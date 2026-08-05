@@ -104,6 +104,8 @@ export class AuditSubscriber implements EntitySubscriberInterface {
       ip: context?.ip ?? null,
 
       userAgent: context?.userAgent ?? null,
+
+      requestId: context?.requestId ?? null,
     });
 
     await event.manager.save(AuditLog, auditLog);
@@ -122,10 +124,11 @@ export class AuditSubscriber implements EntitySubscriberInterface {
 
     const sensitiveFields = [
       'password',
-      'passwordHash',
+      'token',
       'refreshToken',
       'accessToken',
-      'resetToken',
+      'authorization',
+      'secret',
     ];
 
     for (const field of sensitiveFields) {

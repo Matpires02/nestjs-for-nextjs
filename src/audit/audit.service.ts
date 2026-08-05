@@ -20,6 +20,7 @@ export class AuditService {
       entityId,
       startDate,
       endDate,
+      requestId,
       page = 1,
       limit = 20,
     } = dto;
@@ -58,6 +59,10 @@ export class AuditService {
       query.andWhere('audit.created_at <= :endDate', {
         endDate: end,
       });
+    }
+
+    if (requestId) {
+      query.andWhere('audit.request_id = :requestId', { requestId });
     }
 
     query

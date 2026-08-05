@@ -7,6 +7,7 @@ export interface RequestContextData {
   method: string | null;
   route: string | null;
   userAgent: string | null;
+  requestId: string | null;
 }
 
 @Injectable()
@@ -26,6 +27,14 @@ export class RequestContextService {
 
     if (context) {
       context.userId = userId;
+    }
+  }
+
+  setRequestId(requestId: string | undefined): void {
+    const context = this.storage.getStore();
+
+    if (context) {
+      context.requestId = requestId ?? null;
     }
   }
 }

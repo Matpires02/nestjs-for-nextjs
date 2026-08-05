@@ -17,6 +17,7 @@ export enum AuditAction {
 @Index(['userId'])
 @Index(['action'])
 @Index(['createdAt'])
+@Index(['requestId'])
 export class AuditLog {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -93,4 +94,12 @@ export class AuditLog {
     name: 'created_at',
   })
   createdAt: Date;
+
+  @Column({
+    name: 'request_id',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+  })
+  requestId: string | null;
 }
