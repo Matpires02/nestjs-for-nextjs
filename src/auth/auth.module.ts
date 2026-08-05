@@ -23,12 +23,15 @@ import { AuditModule } from 'src/audit/audit.module';
           );
         }
 
-        const expiresIn: any = process.env.JWT_EXPIRATION || '1d';
+        const expiresIn: any = process.env.JWT_EXPIRATION || '15m';
+        const issuer = process.env.JWT_ISSUER;
+        const audience = process.env.JWT_AUDIENCE;
 
         return {
           secret,
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          signOptions: { expiresIn },
+          signOptions: { expiresIn, issuer, audience, algorithm: 'HS256' },
+          verifyOptions: { issuer, audience },
         };
       },
     }),
