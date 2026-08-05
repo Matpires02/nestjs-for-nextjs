@@ -39,6 +39,8 @@ import { RequestContextMiddleware } from './request-context/request-context.midd
             database: process.env.DB_DATABASE || './db.sqlite',
             synchronize: process.env.DB_SYNCHRONIZE === '1',
             autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
+            migrations: ['dist/migrations/*.js'],
+            migrationsRun: process.env.DB_MIGRATIONS_RUN === '1',
           };
         }
 
@@ -50,6 +52,8 @@ import { RequestContextMiddleware } from './request-context/request-context.midd
           },
           synchronize: process.env.DB_SYNCHRONIZE === '1',
           autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
+          migrations: ['src/migrations/*.ts'],
+          migrationsRun: process.env.DB_MIGRATIONS_RUN === '1',
         };
       },
     }),
