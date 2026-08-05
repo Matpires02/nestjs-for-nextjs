@@ -16,6 +16,8 @@ export enum AuditAction {
   LOGIN_FAILED = 'LOGIN_FAILED',
   LOGOUT = 'LOGOUT',
   PASSWORD_CHANGE = 'PASSWORD_CHANGE',
+
+  ACCESS_DENIED = 'ACCESS_DENIED',
 }
 
 @Entity('audit_logs')
