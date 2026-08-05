@@ -23,6 +23,7 @@ export class AuthService {
     const user = await this.userService.findByEmail(loginDto.email);
 
     if (!user) {
+      await this.createAuditLog(AuditAction.LOGIN, AuditStatus.FAILURE, null);
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
 
