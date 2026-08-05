@@ -5,6 +5,7 @@ import {
   Index,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { AuditStatus } from './audit-status.enum';
 
 export enum AuditAction {
   CREATE = 'CREATE',
@@ -102,4 +103,11 @@ export class AuditLog {
     nullable: true,
   })
   requestId: string | null;
+
+  @Column({
+    type: 'varchar',
+    length: 10,
+    default: AuditStatus.SUCCESS,
+  })
+  status: AuditStatus;
 }

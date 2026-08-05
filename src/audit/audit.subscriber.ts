@@ -9,6 +9,7 @@ import {
 import { AuditAction } from './entities/audit-log.entity';
 import { AuditLog } from './entities/audit-log.entity';
 import { RequestContextService } from 'src/request-context/request-context.service';
+import { AuditStatus } from './entities/audit-status.enum';
 
 @EventSubscriber()
 export class AuditSubscriber implements EntitySubscriberInterface {
@@ -106,6 +107,8 @@ export class AuditSubscriber implements EntitySubscriberInterface {
       userAgent: context?.userAgent ?? null,
 
       requestId: context?.requestId ?? null,
+
+      status: AuditStatus.SUCCESS,
     });
 
     await event.manager.save(AuditLog, auditLog);
