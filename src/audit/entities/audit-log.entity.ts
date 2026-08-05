@@ -11,11 +11,16 @@ export enum AuditAction {
   CREATE = 'CREATE',
   UPDATE = 'UPDATE',
   DELETE = 'DELETE',
+
+  LOGIN = 'LOGIN',
+  LOGIN_FAILED = 'LOGIN_FAILED',
+  LOGOUT = 'LOGOUT',
+  PASSWORD_CHANGE = 'PASSWORD_CHANGE',
 }
 
 @Entity('audit_logs')
-@Index(['entity', 'entityId'])
-@Index(['userId'])
+@Index(['entity', 'entityId', 'createdAt'])
+@Index(['userId', 'createdAt'])
 @Index(['action'])
 @Index(['createdAt'])
 @Index(['requestId'])

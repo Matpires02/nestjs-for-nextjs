@@ -6,9 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { RequestContextService } from './request-context.service';
-import { AuthenticatedRequest } from 'src/auth/types/autenticated-request';
-import { RequestWithId } from './types/request-with-id.type';
-type RequestWithUser = AuthenticatedRequest & RequestWithId;
+import { RequestWithUser } from './types/request-with-user-and-id.type';
 
 @Injectable()
 export class RequestContextInterceptor implements NestInterceptor {

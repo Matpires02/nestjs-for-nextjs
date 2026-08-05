@@ -4,6 +4,10 @@ import { HashingService } from 'src/common/hashing/hasing.service';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './types/jwt-payload.type';
+import { RequestContextService } from 'src/request-context/request-context.service';
+import { AuditAction } from 'src/audit/entities/audit-log.entity';
+import { AuditStatus } from 'src/audit/entities/audit-status.enum';
+import { AuditService } from 'src/audit/audit.service';
 
 @Injectable()
 export class AuthService {
@@ -11,6 +15,8 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly hashingService: HashingService,
     private readonly jwtService: JwtService,
+    private readonly requestContext: RequestContextService,
+    private readonly auditService: AuditService,
   ) {}
 
   async login(loginDto: LoginDto) {
@@ -26,6 +32,11 @@ export class AuthService {
     );
 
     if (!isPasswordValid) {
+      await this.createAuditLog(
+        AuditAction.LOGIN,
+        AuditStatus.FAILURE,
+        user.id,
+      );
       throw new UnauthorizedException('Usuário ou senha inválidos');
     }
     const jwtPayload: JwtPayload = {
@@ -37,6 +48,33 @@ export class AuthService {
     user.forceLogout = false;
     await this.userService.save(user);
 
+    await this.createAuditLog(AuditAction.LOGIN, AuditStatus.SUCCESS, user.id);
+
     return { accessToken };
+  }
+
+  async logout() {}
+
+  private async createAuditLog(
+    action: AuditAction,
+    status: AuditStatus,
+    userId: string | null = null,
+  ) {
+    const requestContext = this.requestContext.get();
+
+    await this.auditService.create({
+      action,
+      status,
+      userId,
+      entity: 'Auth',
+      entityId: null,
+      requestId: requestContext?.requestId ?? null,
+      oldValues: null,
+      newValues: null,
+      method: requestContext?.method ?? 'POST',
+      route: requestContext?.route ?? '/auth/login',
+      ip: requestContext?.ip ?? null,
+      userAgent: requestContext?.userAgent ?? null,
+    });
   }
 }

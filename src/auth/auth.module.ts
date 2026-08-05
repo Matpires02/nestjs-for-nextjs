@@ -5,6 +5,7 @@ import { UserModule } from 'src/user/user.module';
 import { CommonModule } from 'src/common/common.module';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { AuditModule } from 'src/audit/audit.module';
 
 @Module({
   controllers: [AuthController],
@@ -12,6 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     UserModule,
     CommonModule,
+    AuditModule,
     JwtModule.registerAsync({
       useFactory: (): JwtModuleOptions => {
         const secret = process.env.JWT_SECRET;

@@ -88,4 +88,9 @@ export class AuditService {
       where: { id },
     });
   }
+
+  async create(data: Omit<AuditLog, 'id' | 'createdAt'>) {
+    const auditLog = this.auditRepository.create(data);
+    return await this.auditRepository.save(auditLog);
+  }
 }

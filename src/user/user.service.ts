@@ -12,12 +12,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hasing.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password';
+import { AuditService } from 'src/audit/audit.service';
+import { AuditAction } from 'src/audit/entities/audit-log.entity';
+import { AuditStatus } from 'src/audit/entities/audit-status.enum';
+import { RequestContextService } from 'src/request-context/request-context.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly hashingService: HashingService,
+    private readonly requestContext: RequestContextService,
+    private readonly auditService: AuditService,
   ) {}
 
   async findByOrFail(userData: Partial<User>) {
@@ -88,11 +94,13 @@ export class UserService {
     );
 
     if (!isCurrentPasswordValid) {
+      await this.createAuditLogForChangePasssword(AuditStatus.FAILURE);
       throw new UnauthorizedException('Senha atual inválida');
     }
 
     user.password = await this.hashingService.hash(dto.newPassword);
     user.forceLogout = true;
+    await this.createAuditLogForChangePasssword(AuditStatus.SUCCESS);
     return this.save(user);
   }
 
@@ -100,5 +108,24 @@ export class UserService {
     const user = await this.findByOrFail({ id });
     await this.userRepository.delete({ id });
     return user;
+  }
+
+  private async createAuditLogForChangePasssword(status: AuditStatus) {
+    const requestContext = this.requestContext.get();
+
+    await this.auditService.create({
+      action: AuditAction.PASSWORD_CHANGE,
+      status,
+      userId: requestContext?.userId ?? null,
+      entity: 'User',
+      entityId: requestContext?.userId ?? null,
+      requestId: requestContext?.requestId ?? null,
+      oldValues: null,
+      newValues: null,
+      method: requestContext?.method ?? 'POST',
+      route: requestContext?.route ?? '/user/me/password',
+      ip: requestContext?.ip ?? null,
+      userAgent: requestContext?.userAgent ?? null,
+    });
   }
 }
