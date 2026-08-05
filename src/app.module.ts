@@ -12,7 +12,6 @@ import { HealthModule } from './health/health.module';
 import { RequestContextModule } from './request-context/request-context.module';
 import { AuditModule } from './audit/audit.module';
 import { RequestContextMiddleware } from './request-context/request-context.middleware';
-import { join } from 'path';
 
 @Module({
   imports: [
