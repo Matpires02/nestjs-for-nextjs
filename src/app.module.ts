@@ -8,11 +8,11 @@ import { UploadModule } from './upload/upload.module';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { HealthController } from './health/health.controller';
 import { HealthModule } from './health/health.module';
 import { RequestContextModule } from './request-context/request-context.module';
 import { AuditModule } from './audit/audit.module';
 import { RequestContextMiddleware } from './request-context/request-context.middleware';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -39,8 +39,6 @@ import { RequestContextMiddleware } from './request-context/request-context.midd
             database: process.env.DB_DATABASE || './db.sqlite',
             synchronize: process.env.DB_SYNCHRONIZE === '1',
             autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
-            migrations: [__dirname + '/migrations/*{.js,.ts}'],
-            migrationsRun: process.env.DB_MIGRATIONS_RUN === '1',
           };
         }
 
@@ -50,9 +48,9 @@ import { RequestContextMiddleware } from './request-context/request-context.midd
           ssl: {
             rejectUnauthorized: false,
           },
-          synchronize: process.env.DB_SYNCHRONIZE === '1',
+          synchronize: false,
           autoLoadEntities: process.env.DB_AUTO_LOAD_ENTITIES === '1',
-          migrations: ['src/migrations/*.ts'],
+          migrations: [__dirname + '/migrations/*{.js,.ts}'],
           migrationsRun: process.env.DB_MIGRATIONS_RUN === '1',
         };
       },
