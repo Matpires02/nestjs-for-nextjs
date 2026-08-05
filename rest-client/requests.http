@@ -11,6 +11,9 @@
 @userPasswordForTesting = 123456
 @userNewPasswordForTesting = 123456
 
+
+@auditId = {{queryAuditLogs.response.body.$.data[0].id}}
+
 # AUTH ########################################################################
 
 ### Auth login
@@ -153,4 +156,20 @@ GET {{baseUrl}}/health/live
 ### health Check was ready
 # @name healthReady
 GET {{baseUrl}}/health/ready
+
 ###############################################################################
+
+# Audit ######################################################################
+
+### query Audit logs
+# @name queryAuditLogs
+GET {{baseUrl}}/audit-logs
+Authorization: Bearer {{jwtToken}}
+
+### get audit log by id
+# @name getAuditLogById
+GET {{baseUrl}}/audit-logs/{{auditId}}
+Authorization: Bearer {{jwtToken}}
+
+###############################################################################
+

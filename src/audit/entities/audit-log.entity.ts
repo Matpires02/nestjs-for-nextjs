@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -12,6 +13,10 @@ export enum AuditAction {
 }
 
 @Entity('audit_logs')
+@Index(['entity', 'entityId'])
+@Index(['userId'])
+@Index(['action'])
+@Index(['createdAt'])
 export class AuditLog {
   @PrimaryGeneratedColumn('uuid')
   id: string;
