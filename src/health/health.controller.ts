@@ -8,6 +8,7 @@ import {
   DiskHealthIndicator,
   HealthIndicatorService,
 } from '@nestjs/terminus';
+import { ApiHealth, ApiHealthLive, ApiHealthReady } from './health.swagger';
 
 @Controller('health')
 export class HealthController {
@@ -26,6 +27,7 @@ export class HealthController {
    * Verifica apenas se a aplicação está funcionando.
    */
   @Get('live')
+  @ApiHealthLive()
   @HealthCheck()
   live() {
     return this.health.check([
@@ -46,6 +48,7 @@ export class HealthController {
    * para receber requisições.
    */
   @Get('ready')
+  @ApiHealthReady()
   @HealthCheck()
   ready() {
     return this.health.check([
@@ -59,6 +62,7 @@ export class HealthController {
    */
   @Get('')
   @HealthCheck()
+  @ApiHealth()
   check() {
     return this.health.check([
       () => this.db.pingCheck('database'),

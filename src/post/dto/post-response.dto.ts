@@ -1,16 +1,37 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Post } from '../entities/post.entity';
+import { UserPostResponse } from 'src/user/dto/user-post-response.dto';
 
 export class PostResponseDto {
+  @ApiProperty()
   readonly id: string;
+
+  @ApiProperty()
   readonly title: string;
+
+  @ApiProperty()
   readonly slug: string;
+
+  @ApiProperty()
   readonly content: string;
+
+  @ApiProperty()
   readonly excerpt: string;
+
+  @ApiProperty({ type: String })
   readonly coverImageUrl: string | null;
+
+  @ApiProperty()
   readonly published: boolean;
+
+  @ApiProperty()
   readonly createdAt: Date;
+
+  @ApiProperty()
   readonly updatedAt: Date;
-  readonly author: { id: string; email: string; name: string };
+
+  @ApiProperty()
+  readonly author: UserPostResponse;
 
   constructor(post: Post) {
     this.id = post.id;

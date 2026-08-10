@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { AuditLog } from './entities/audit-log.entity';
 import { FindAuditLogsDto } from './dto/find-audit-logs.dto';
+import { PageResponse } from 'src/common/dto/page-response';
 
 @Injectable()
 export class AuditService {
@@ -12,7 +13,7 @@ export class AuditService {
     private readonly auditRepository: Repository<AuditLog>,
   ) {}
 
-  async findAll(dto: FindAuditLogsDto) {
+  async findAll(dto: FindAuditLogsDto): Promise<PageResponse<AuditLog>> {
     const {
       action,
       entity,

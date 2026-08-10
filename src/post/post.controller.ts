@@ -16,6 +16,15 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import type { AuthenticatedRequest } from 'src/auth/types/autenticated-request';
 import { PostResponseDto } from './dto/post-response.dto';
+import {
+  ApiPostMyAllPost as ApiPostGetMyPosts,
+  ApiPostById as ApiPostGetById,
+  ApiPostCreate,
+  ApiPostUpdate,
+  ApiPostDelete,
+  ApiPostBySlug as ApiPostGetBySlug,
+  ApiPostGetAllPublishedPosts,
+} from './post.swagger';
 
 @Controller('post')
 export class PostController {
@@ -23,6 +32,7 @@ export class PostController {
 
   @Post('me')
   @UseGuards(JwtAuthGuard)
+  @ApiPostCreate()
   async create(
     @Body() createPostDto: CreatePostDto,
     @Req() req: AuthenticatedRequest,
@@ -32,6 +42,7 @@ export class PostController {
   }
 
   @Get('me/:id')
+  @ApiPostGetById()
   @UseGuards(JwtAuthGuard)
   async findOneOwned(
     @Param('id', ParseUUIDPipe) id: string,
@@ -42,6 +53,7 @@ export class PostController {
   }
 
   @Get('me')
+  @ApiPostGetMyPosts()
   @UseGuards(JwtAuthGuard)
   async findAllOneOwned(@Req() req: AuthenticatedRequest) {
     const posts = await this.postService.findAllOneOwned(req.user);
@@ -49,6 +61,7 @@ export class PostController {
   }
 
   @Patch('me/:id')
+  @ApiPostUpdate()
   @UseGuards(JwtAuthGuard)
   async update(
     @Body() updatePostDto: UpdatePostDto,
@@ -64,6 +77,7 @@ export class PostController {
   }
 
   @Delete('me/:id')
+  @ApiPostDelete()
   @UseGuards(JwtAuthGuard)
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
@@ -74,6 +88,7 @@ export class PostController {
   }
 
   @Get(':slug')
+  @ApiPostGetBySlug()
   async findOnePublished(@Param('slug') slug: string) {
     const post = await this.postService.findOneOrFail({
       slug,
@@ -83,6 +98,7 @@ export class PostController {
   }
 
   @Get()
+  @ApiPostGetAllPublishedPosts()
   async findAllPublished() {
     const post = await this.postService.findAll({ published: true });
     return post.map(post => new PostResponseDto(post));

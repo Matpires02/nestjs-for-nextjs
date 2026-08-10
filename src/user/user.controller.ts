@@ -15,6 +15,13 @@ import type { AuthenticatedRequest } from 'src/auth/types/autenticated-request';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UpdatePasswordDto } from './dto/update-password';
+import {
+  ApiUserCreate,
+  ApiUserDelete,
+  ApiUserGetMe,
+  ApiUserPasswordUpdate,
+  ApiUserUpdate,
+} from './user.swagger';
 
 @Controller('user')
 export class UserController {
@@ -22,18 +29,21 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
+  @ApiUserGetMe()
   async findOne(@Req() req: AuthenticatedRequest) {
     const user = await this.userService.findByOrFail({ id: req.user.id });
     return new UserResponseDto(user);
   }
 
   @Post()
+  @ApiUserCreate()
   async create(@Body() dto: CreateUserDto) {
     const user = await this.userService.create(dto);
     return new UserResponseDto(user);
   }
 
   @Patch('me')
+  @ApiUserUpdate()
   @UseGuards(JwtAuthGuard)
   async update(@Body() dto: UpdateUserDto, @Req() req: AuthenticatedRequest) {
     const user = await this.userService.update(req.user.id, dto);
@@ -41,6 +51,7 @@ export class UserController {
   }
 
   @Patch('me/password')
+  @ApiUserPasswordUpdate()
   @UseGuards(JwtAuthGuard)
   async updatePassword(
     @Body() dto: UpdatePasswordDto,
@@ -51,6 +62,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiUserDelete()
   @Delete('me')
   async remove(@Req() req: AuthenticatedRequest) {
     const user = await this.userService.remove(req.user.id);

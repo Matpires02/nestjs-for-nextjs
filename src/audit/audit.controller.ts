@@ -13,6 +13,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { UserRole } from 'src/user/entities/user-role.enum';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ApiAuditLogById, ApiAuditQuery } from './audit.swagger';
 
 @Controller('audit-logs')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -21,11 +22,13 @@ export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 
   @Get()
+  @ApiAuditQuery()
   findAll(@Query() query: FindAuditLogsDto) {
     return this.auditService.findAll(query);
   }
 
   @Get(':id')
+  @ApiAuditLogById()
   async findById(
     @Param('id', ParseUUIDPipe)
     id: string,
